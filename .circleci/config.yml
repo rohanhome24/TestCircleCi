@@ -1,4 +1,5 @@
 version: 2
+
 jobs:
   compile_tests:
     machine: true
@@ -17,8 +18,61 @@ jobs:
           name: complie_code
           command: sbt -v test:compile
           
+    run_tests:
+      machine: true
+      environment:
+        SBT_SCALA_VERSION: 2.11.7
+        SBT_OPTS: -XX:+CMSClassUnloadingEnabled
+        JAVA_OPTS: "-Xms1g -Xmx3g -XX:MetaspaceSize=512M -XX:+UseConcMarkSweepGC -Xss256m"
+        TZ: Europe/Berlin
+      working_directory: ~/TestCircleCi
+      parallelism: 4
+      steps:
+        - run: 
+          name: install_sbt
+          command: wget -O /tmp/sbt-0.13.13.deb https://dl.bintray.com/sbt/debian/sbt-0.13.13.deb && sudo dpkg -i /tmp/sbt-0.13.13.deb
+        - checkout
+        - run:
+            name: run_test
+            command: sbt test
+
+    compile:
+      machine: true
+      environment:
+        SBT_SCALA_VERSION: 2.11.7
+        SBT_OPTS: -XX:+CMSClassUnloadingEnabled
+        JAVA_OPTS: "-Xms1g -Xmx3g -XX:MetaspaceSize=512M -XX:+UseConcMarkSweepGC -Xss256m"
+        TZ: Europe/Berlin
+      working_directory: ~/TestCircleCi
+      steps:
+        - run: 
+          name: install_sbt
+          command: wget -O /tmp/sbt-0.13.13.deb https://dl.bintray.com/sbt/debian/sbt-0.13.13.deb && sudo dpkg -i /tmp/sbt-0.13.13.deb
+        - checkout
+        - run:
+            name: complie_code
+            command: sbt -v compile
+            
+    deploy:
+      machine: true
+      environment:
+        SBT_SCALA_VERSION: 2.11.7
+        SBT_OPTS: -XX:+CMSClassUnloadingEnabled
+        JAVA_OPTS: "-Xms1g -Xmx3g -XX:MetaspaceSize=512M -XX:+UseConcMarkSweepGC -Xss256m"
+        TZ: Europe/Berlin
+      working_directory: ~/TestCircleCi
+      steps:
+        - run: 
+          name: install_sbt
+          command: wget -O /tmp/sbt-0.13.13.deb https://dl.bintray.com/sbt/debian/sbt-0.13.13.deb && sudo dpkg -i /tmp/sbt-0.13.13.deb
+        - checkout           
+   
 workflows:
   version: 2
   build_test_deploy:
     jobs:
       - compile_tests
+      - run_tests
+      - compile
+      - deploy
+
