@@ -15,7 +15,7 @@ jobs:
       - checkout
       - run:
           name: complie_code
-          command: sbt -v test:complie
+          command: sbt -v test:compile
           
 workflows:
   version: 2
