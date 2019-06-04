@@ -71,7 +71,7 @@ workflows:
   build_test_deploy:
     jobs:
       - compile_tests
-      - run_tests
+      - run_tests:
           requires:
             - compile_tests
       - compile      
@@ -80,6 +80,6 @@ workflows:
           requires:
             - run_tests
             - compile
-      - deploy
+      - deploy:
           requires:
             - hold
