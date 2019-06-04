@@ -77,9 +77,17 @@ workflows:
       - compile      
       - hold:
           type: approval
+          filters:
+              branches:
+                only:
+                  - master
+      - deploy:
           requires:
             - run_tests
             - compile
-      - deploy:
-          requires:
             - hold
+          filters:
+            branches:
+              only:
+                - master
+                - /feature.*/
