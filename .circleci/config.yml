@@ -72,5 +72,14 @@ workflows:
     jobs:
       - compile_tests
       - run_tests
-      - compile
+          requires:
+            - compile_tests
+      - compile      
+      - hold:
+          type: approval
+          requires:
+            - run_tests
+            - compile
       - deploy
+          requires:
+            - hold
