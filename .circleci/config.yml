@@ -77,15 +77,14 @@ workflows:
       - compile      
       - hold:
           type: approval
-          requires:
-              - run_tests
-              - compile
           filters:
               branches:
                 only:
                   - master
       - deploy:
           requires:
+            - compile_tests
+            - run_tests
             - hold
           filters:
             branches:
