@@ -91,3 +91,4 @@ workflows:
               only:
                 - master
                 - /feature.*/
+
