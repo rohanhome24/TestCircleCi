@@ -16,3 +16,9 @@ jobs:
       - run:
           name: complie_code
           command: sbt -v test:complie
+          
+ workflows:
+  version: 2
+  build_test_deploy:
+    jobs:
+      - compile_tests
