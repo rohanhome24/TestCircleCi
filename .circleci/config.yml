@@ -13,7 +13,7 @@ jobs:
           name: install_sbt
           command: wget -O /tmp/sbt-0.13.13.deb https://dl.bintray.com/sbt/debian/sbt-0.13.13.deb && sudo dpkg -i /tmp/sbt-0.13.13.deb
       - checkout
-      -run:
+      - run:
           name: complie_code
           command: sbt -v test:complie
           
