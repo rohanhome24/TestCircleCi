@@ -76,7 +76,6 @@ workflows:
             - compile_tests
       - compile      
       - hold:
-          name: "please create tag"
           type: approval
           filters:
               branches:
@@ -84,7 +83,7 @@ workflows:
                   - master
       - deploy:
           requires:
-            - compile_tests
+            - compile
             - run_tests
             - hold
           filters:
