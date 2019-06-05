@@ -83,7 +83,7 @@ workflows:
                   - master
       - deploy:
           requires:
-            - compile_tests
+            - compile
             - run_tests
             - hold
           filters:
