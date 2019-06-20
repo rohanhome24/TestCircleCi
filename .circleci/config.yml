@@ -65,6 +65,18 @@ jobs:
           name: install_sbt
           command: wget -O /tmp/sbt-0.13.13.deb https://dl.bintray.com/sbt/debian/sbt-0.13.13.deb && sudo dpkg -i /tmp/sbt-0.13.13.deb
       - checkout
+      - run:
+          name: set aws credentials
+          command: |
+            if [ $CIRCLE_BRANCH == "master" ]; then
+                AWS_ACCESS_KEY_ID=${PRODUCTION_AWS_ACCESS_KEY_ID}
+                AWS_SECRET_ACCESS_KEY=${PRODUCTION_AWS_SECRET_ACCESS_KEY}
+            else
+                AWS_ACCESS_KEY_ID=${DEVELOPMENT_AWS_ACCESS_KEY_ID}
+                AWS_SECRET_ACCESS_KEY=${DEVELOPMENT_AWS_SECRET_ACCESS_KEY}
+            fi
+            aws configure set aws_access_key_id ${AWS_ACCESS_KEY_ID}
+            aws configure set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY}
           
 workflows:
   version: 2
@@ -91,4 +103,3 @@ workflows:
               only:
                 - master
                 - /feature.*/
-
